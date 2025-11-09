@@ -203,9 +203,11 @@ To add a new command category:
 
 **Branch Strategy:**
 
-- ALWAYS commit to feature branches, NEVER directly to `main`
+- **CRITICAL**: ALWAYS commit to feature branches, NEVER directly to `main`
+- Direct commits to `main` are blocked by branch protection workflows
 - Use descriptive branch names: `feature/<description>`, `fix/<issue>`, `docs/<topic>`
 - Create pull requests for review before merging to main
+- Only PR merges and automated release commits are allowed on `main`
 
 **Commit Message Format:**
 
@@ -246,6 +248,33 @@ docs: update README with installation instructions
 - Use conventional commit format
 - Keep commits atomic and focused
 - Write clear, descriptive commit messages
+
+## Release Process
+
+Releases are **fully automated** using [semantic-release](https://semantic-release.gitbook.io/semantic-release/).
+
+**How it works:**
+
+1. When a PR is merged to `main`, semantic-release analyzes commits
+2. Determines version bump based on conventional commit types:
+   - `feat:` → **minor** version bump (1.0.0 → 1.1.0)
+   - `fix:` → **patch** version bump (1.0.0 → 1.0.1)
+   - `BREAKING CHANGE:` → **major** version bump (1.0.0 → 2.0.0)
+   - `docs:`, `chore:`, `refactor:` → no release
+3. Automatically:
+   - Generates CHANGELOG.md
+   - Updates version in `.claude-plugin/plugin.json`
+   - Creates git tag
+   - Creates GitHub release with notes
+   - Commits changes back to `main`
+
+**Configuration:**
+
+- `.releaserc.json` - Semantic-release configuration
+- `.github/workflows/release.yaml` - GitHub Actions workflow
+- `.github/update-plugin-version.js` - Updates plugin.json version
+
+**No manual steps required** - just use conventional commits and merge to `main` via PR.
 
 ## Technical Standards
 
