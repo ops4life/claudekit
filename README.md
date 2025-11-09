@@ -373,15 +373,20 @@ Commands incorporate Site Reliability Engineering principles:
 
 ## Contributing
 
-Contributions are welcome! To add new commands:
+Contributions are welcome! To add new commands or improve existing ones:
 
 1. Fork the repository
-2. Create a new command in the appropriate `commands/<category>/` directory
-3. Follow the command structure pattern (see CLAUDE.md)
-4. Test the command in Claude Code
-5. Submit a pull request
+2. Create a feature branch with conventional commit format
+3. Make your changes:
+   - Add new commands in `commands/<category>/` directory
+   - Follow the command structure pattern (see CLAUDE.md)
+   - Test the command in Claude Code
+4. Commit using conventional commit format (e.g., `feat: add new command`)
+5. Submit a pull request to `main` branch
 
-See [CLAUDE.md](./CLAUDE.md) for detailed plugin architecture and development guidelines.
+**Releases are automated!** When your PR is merged, if it contains `feat:`, `fix:`, or `perf:` commits, a new release will be automatically created with updated version and changelog.
+
+See [CLAUDE.md](./CLAUDE.md) for detailed plugin architecture and [.github/RELEASING.md](./.github/RELEASING.md) for release process guidelines.
 
 ## License
 
@@ -390,6 +395,7 @@ MIT License - See [LICENSE](./LICENSE) file for details.
 ## Resources
 
 - **Documentation**: [CLAUDE.md](./CLAUDE.md) - Plugin architecture guide
+- **Release Process**: [.github/RELEASING.md](./.github/RELEASING.md) - Automated release workflow
 - **Reference**: [Edmund's Claude Code](https://github.com/edmund-io/edmunds-claude-code) - Inspiration and patterns
 - **Claude Code Docs**: [https://code.claude.com/docs](https://code.claude.com/docs)
 

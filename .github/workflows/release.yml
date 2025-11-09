@@ -1,0 +1,95 @@
+name: Automated Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: |
+          npm install -g conventional-changelog-cli
+          npm install -g semver
+
+      - name: Validate Plugin Configuration
+        run: |
+          chmod +x .github/scripts/validate-plugin.sh
+          .github/scripts/validate-plugin.sh
+
+      - name: Determine Version Bump
+        id: version
+        run: |
+          chmod +x .github/scripts/determine-version.sh
+          ./.github/scripts/determine-version.sh
+
+      - name: Update Version Files
+        if: steps.version.outputs.should_release == 'true'
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          chmod +x .github/scripts/update-versions.sh
+          ./.github/scripts/update-versions.sh
+
+      - name: Generate Changelog
+        if: steps.version.outputs.should_release == 'true'
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          chmod +x .github/scripts/generate-changelog.sh
+          ./.github/scripts/generate-changelog.sh
+
+      - name: Commit Version Bump
+        if: steps.version.outputs.should_release == 'true'
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          git add .claude-plugin/plugin.json CHANGELOG.md
+          git commit -m "chore(release): bump version to v${NEW_VERSION}"
+          git tag -a "v${NEW_VERSION}" -m "Release v${NEW_VERSION}"
+          git push origin main
+          git push origin "v${NEW_VERSION}"
+
+      - name: Create GitHub Release
+        if: steps.version.outputs.should_release == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          chmod +x .github/scripts/create-release.sh
+          ./.github/scripts/create-release.sh
+
+      - name: Release Summary
+        if: steps.version.outputs.should_release == 'true'
+        run: |
+          echo "✅ Successfully released version v${{ steps.version.outputs.new_version }}"
+          echo "📦 Release URL: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.new_version }}"
+
+      - name: No Release Needed
+        if: steps.version.outputs.should_release != 'true'
+        run: |
+          echo "ℹ️ No release needed - no conventional commits found since last release"
