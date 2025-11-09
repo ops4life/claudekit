@@ -1,0 +1,35 @@
+name: Branch Protection
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-branch-protection:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check if push is from PR merge
+        run: |
+          # Allow commits from semantic-release (contains [skip ci])
+          if [[ "${{ github.event.head_commit.message }}" == *"[skip ci]"* ]]; then
+            echo "✅ Automated release commit - allowed"
+            exit 0
+          fi
+
+          # Check if this is a merge commit (PR merge)
+          if [[ "${{ github.event.head_commit.message }}" == Merge* ]]; then
+            echo "✅ PR merge commit - allowed"
+            exit 0
+          fi
+
+          # Direct push to main - block it
+          echo "❌ Direct commits to main are not allowed!"
+          echo "Please use the proper workflow:"
+          echo "1. Create a feature branch: git checkout -b feature/your-feature"
+          echo "2. Commit your changes to the feature branch"
+          echo "3. Push the feature branch: git push -u origin feature/your-feature"
+          echo "4. Create a Pull Request to main"
+          echo ""
+          echo "See CLAUDE.md for git workflow guidelines."
+          exit 1

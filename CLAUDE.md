@@ -203,9 +203,11 @@ To add a new command category:
 
 **Branch Strategy:**
 
-- ALWAYS commit to feature branches, NEVER directly to `main`
+- **CRITICAL**: ALWAYS commit to feature branches, NEVER directly to `main`
+- Direct commits to `main` are blocked by branch protection workflows
 - Use descriptive branch names: `feature/<description>`, `fix/<issue>`, `docs/<topic>`
 - Create pull requests for review before merging to main
+- Only PR merges and automated release commits are allowed on `main`
 
 **Commit Message Format:**
 
