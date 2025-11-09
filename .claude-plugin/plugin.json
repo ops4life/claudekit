@@ -1,10 +1,12 @@
 {
-"name": "claudekit",
-"description": "A simple greeting plugin to learn the basics",
-"version": "1.0.0",
-"author": {
-"name": "ops4life"
-}
+  "name": "claudekit",
+  "description": "DevOps, SRE, and Platform Engineering toolkit for Claude Code",
+  "version": "1.0.0",
+  "author": {
+    "name": "ops4life"
+  },
+  "license": "MIT",
+  "tags": ["devops", "sre", "platform-engineering", "kubernetes", "terraform", "cicd", "observability", "aws", "gcp", "azure"]
 }
 
 
