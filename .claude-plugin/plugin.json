@@ -5,8 +5,7 @@
   "author": {
     "name": "ops4life"
   },
-  "license": "MIT",
-  "tags": ["devops", "sre", "platform-engineering", "kubernetes", "terraform", "cicd", "observability", "aws", "gcp", "azure"]
+  "license": "MIT"
 }
 
 

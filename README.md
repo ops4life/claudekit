@@ -16,25 +16,40 @@ A comprehensive Claude Code plugin providing production-ready slash commands for
 
 ### Prerequisites
 
-- [Claude Code](https://code.claude.com/) installed
-- Git
+- Claude Code 2.0.13 or higher
+- Git (for local installation method)
 
-### Install from Source
+### Quick Install (Recommended)
+
+Install directly from GitHub in two commands:
+
+1. **Add the marketplace:** `/plugin marketplace add ops4life/claudekit`
+2. **Install the plugin:** `/plugin install claudekit`
+
+### Install from Local Source
+
+For development or customization purposes:
 
 ```bash
 # Clone the repository
 git clone https://github.com/ops4life/claudekit.git
 
-# Navigate to Claude Code plugins directory
-cd ~/.claude-code/plugins  # Linux/macOS
-# or
-cd %APPDATA%\claude-code\plugins  # Windows
+# Navigate to the cloned directory
+cd claudekit
 
-# Create symlink to plugin
-ln -s /path/to/claudekit claudekit
+# Add as local marketplace source
+# Run this command in Claude Code:
+# /plugin marketplace add /absolute/path/to/claudekit
 
-# Restart Claude Code to load the plugin
+# Install the plugin
+# /plugin install claudekit
 ```
+
+### Post-Installation
+
+Once installed, all commands are immediately available. You can customize any command by editing files in:
+- `.claude/commands/` - Modify command workflows and templates
+- Restart Claude Code after making changes to command files
 
 ## Commands
 

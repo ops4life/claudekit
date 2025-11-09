@@ -1,13 +1,13 @@
 {
-"name": "ops4life",
-"owner": {
-"name": " ops4life"
-},
-"plugins": [
-{
-  "name": "claudekit",
-  "source": "./",
-  "description": "My first test plugin"
-}
-]
+  "name": "ops4life",
+  "owner": {
+    "name": "ops4life"
+  },
+  "plugins": [
+    {
+      "name": "claudekit",
+      "source": "./",
+      "description": "DevOps, SRE, and Platform Engineering toolkit for Claude Code"
+    }
+  ]
 }
